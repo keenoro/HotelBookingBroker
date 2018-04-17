@@ -12,7 +12,7 @@ public class ServerHandler extends Thread {
     private Socket client;
 
     //Create a lock to be used for synchronization
-    private static Object lock = new Object();
+    private static final Object LOCK = new Object();
 
     //Keep track of number of clients and label each client uniquely
     private static int noOfClient = 0;
@@ -250,7 +250,7 @@ public class ServerHandler extends Thread {
             out.println("CONFIRM");
 
             //Check again if the rooms or days are booked by someone else before actually booking
-            synchronized (ServerHandler.lock){
+            synchronized (ServerHandler.LOCK){
                 //Check if the days are already booked
                 for (int i = checkInDate - 1; i < checkOutDate - 1; i++) {
                     if (!hotel.checkADate(i)) {
