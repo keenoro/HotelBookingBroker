@@ -50,7 +50,7 @@ public class Client {
         reader = new BufferedReader(new InputStreamReader(in));
         writer = new PrintStream(out);
 
-        String message = "";
+        String message;
         try {
             message = reader.readLine();
             System.out.println(message);
@@ -77,16 +77,7 @@ public class Client {
                         writer.println("MELBOURNE");
 
                         //For choosing a hotel
-                        while(true){
-                            message = reader.readLine();
-                            if(message.equalsIgnoreCase("END")){
-                                break;
-                            }
-                            System.out.println(message);
-                        }
-                        message = reader.readLine();
-                        System.out.println(message);
-
+                        receiveHotels();
                         System.out.print("\nSelect a hotel: ");
 
                         choice = scanner.nextInt();
@@ -101,15 +92,9 @@ public class Client {
                             //For choosing an option in the selected hotel
                             while(true) {
 
-                                char c;
-                                String hotelOptions = "";
-                                while(true){
-                                    c = (char) reader.read();
-                                    if(c == '%'){
-                                        break;
-                                    }
-                                    hotelOptions += c;
-                                }
+                                //Receive hotel details
+                                String hotelOptions = receiveHotelDetails();
+
                                 System.out.println(hotelOptions);
                                 System.out.print("\nSelect an option: ");
                                 choice = scanner.nextInt();
@@ -118,6 +103,7 @@ public class Client {
                                 message = reader.readLine();
                                 if(message.equalsIgnoreCase("back")){
                                     System.out.println("Back to city menu");
+                                    printCities();
                                     break;
                                 } else if(message.equalsIgnoreCase("retry")){
                                     System.out.println("Invalid input");
@@ -129,23 +115,13 @@ public class Client {
                                     }
                                 }
                             }
-
                         }
                         break;
                     case 2:
                         writer.println("PERTH");
 
                         //For choosing a hotel
-                        while(true){
-                            message = reader.readLine();
-                            if(message.equalsIgnoreCase("END")){
-                                break;
-                            }
-                            System.out.println(message);
-                        }
-                        message = reader.readLine();
-                        System.out.println(message);
-
+                        receiveHotels();
                         System.out.print("\nSelect a hotel: ");
 
                         choice = scanner.nextInt();
@@ -160,15 +136,9 @@ public class Client {
                             //For choosing an option in the selected hotel
                             while(true) {
 
-                                char c;
-                                String hotelOptions = "";
-                                while(true){
-                                    c = (char) reader.read();
-                                    if(c == '%'){
-                                        break;
-                                    }
-                                    hotelOptions += c;
-                                }
+                                //Receive hotel details
+                                String hotelOptions = receiveHotelDetails();
+
                                 System.out.println(hotelOptions);
                                 System.out.print("\nSelect an option: ");
                                 choice = scanner.nextInt();
@@ -177,7 +147,7 @@ public class Client {
                                 message = reader.readLine();
                                 if(message.equalsIgnoreCase("back")){
                                     System.out.println("Back to city menu");
-//                                    printCities();
+                                    printCities();
                                     break;
                                 } else if(message.equalsIgnoreCase("retry")){
                                     System.out.println("Invalid input");
@@ -189,7 +159,6 @@ public class Client {
                                     }
                                 }
                             }
-
                         }
                         break;
                     case 3:
@@ -207,7 +176,7 @@ public class Client {
                         break;
                 }
             } catch(IOException e) {
-                System.out.println(" Client BLAH ");
+                System.out.println("Client IO Error");
             }
         }
     }
@@ -229,7 +198,9 @@ public class Client {
     private static boolean startBooking(){
         String reply;
 
+        //Prevent token passing
         scanner = new Scanner(System.in);
+
         try {
             //Check-in date
             getInfo("Check-in date: ");
@@ -308,5 +279,43 @@ public class Client {
         System.out.print(sentence);
         String info = scanner.nextLine();
         writer.println(info);
+    }
+
+
+    //Prints the hotel's available dates and options
+    private static String receiveHotelDetails(){
+        char c;
+        String hotelOptions = "";
+        while(true){
+            try {
+                c = (char) reader.read();
+                if (c == '%') {
+                    break;
+                }
+                hotelOptions += c;
+            } catch (IOException e){
+                System.out.println("Error receiving hotel details");
+            }
+        }
+        return hotelOptions;
+    }
+
+
+    //Prints all hotels
+    private static void receiveHotels(){
+        String message;
+        try {
+            while (true) {
+                message = reader.readLine();
+                if (message.equalsIgnoreCase("END")) {
+                    break;
+                }
+                System.out.println(message);
+            }
+            message = reader.readLine();
+            System.out.println(message);
+        } catch (IOException e){
+            System.out.println("Error receiving hotels");
+        }
     }
 }
