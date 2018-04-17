@@ -97,19 +97,10 @@ public class Client {
                             System.out.println("Back to city menu");
                             printCities();
                         } else {
-//                            char c;
-//                            String hotelOptions = "";
-//                            while(true){
-//                                c = (char) reader.read();
-//                                if(c == '%'){
-//                                    break;
-//                                }
-//                                hotelOptions += c;
-//                            }
 
                             //For choosing an option in the selected hotel
                             while(true) {
-                                //TODO: REMOVE ABOVE
+
                                 char c;
                                 String hotelOptions = "";
                                 while(true){
@@ -140,10 +131,66 @@ public class Client {
                             }
 
                         }
-
                         break;
                     case 2:
                         writer.println("PERTH");
+
+                        //For choosing a hotel
+                        while(true){
+                            message = reader.readLine();
+                            if(message.equalsIgnoreCase("END")){
+                                break;
+                            }
+                            System.out.println(message);
+                        }
+                        message = reader.readLine();
+                        System.out.println(message);
+
+                        System.out.print("\nSelect a hotel: ");
+
+                        choice = scanner.nextInt();
+                        writer.println(choice);
+
+                        message = reader.readLine();
+                        if(message.equalsIgnoreCase("back")){
+                            System.out.println("Back to city menu");
+                            printCities();
+                        } else {
+
+                            //For choosing an option in the selected hotel
+                            while(true) {
+
+                                char c;
+                                String hotelOptions = "";
+                                while(true){
+                                    c = (char) reader.read();
+                                    if(c == '%'){
+                                        break;
+                                    }
+                                    hotelOptions += c;
+                                }
+                                System.out.println(hotelOptions);
+                                System.out.print("\nSelect an option: ");
+                                choice = scanner.nextInt();
+                                writer.println(choice);
+
+                                message = reader.readLine();
+                                if(message.equalsIgnoreCase("back")){
+                                    System.out.println("Back to city menu");
+//                                    printCities();
+                                    break;
+                                } else if(message.equalsIgnoreCase("retry")){
+                                    System.out.println("Invalid input");
+                                } else if(message.equalsIgnoreCase("no_rooms")){
+                                    System.out.println("Sorry, no rooms available.");
+                                } else {
+                                    if(startBooking()){
+                                        break;
+                                    }
+                                }
+                            }
+
+                        }
                         break;
                     case 3:
                         System.out.println("Sorry, unable to reach Sydney server.");

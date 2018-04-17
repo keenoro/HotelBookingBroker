@@ -65,23 +65,9 @@ public class ServerHandler extends Thread {
                         } else {
                             out.println("HOTEL_DETAILS");
 
-//                            //Prints the hotel details
-//                            String blank = "\n\t===========================";
-//                            message = blank + "\n\t" + hotel.getHotelName() + blank + "\n\tAvailable days in July 2018";
-//                            message += hotel.printCalendar();
-//
-//                            message += blank + "\n\tRoom rate: $" + hotel.getRoomRates();
-//                            message += "\n\tRooms available: " + hotel.getNumberOfRooms();
-//
-//                            message += blank + "\n\t1 - Book \n\t2 - Go back";
-//
-//                            message += "%";
-//                            out.print(message);
-//                            out.flush();
-
                             //For choosing an option in the selected hotel
                             while(true){
-                                //TODO: REMOVE ABOVE
+
                                 //Prints the hotel details
                                 String blank = "\n\t===========================";
                                 message = blank + "\n\t" + hotel.getHotelName() + blank + "\n\tAvailable days in July 2018";
@@ -114,10 +100,56 @@ public class ServerHandler extends Thread {
                                     out.println("RETRY");
                                 }
                             }
-
                         }
                         break;
                     case "perth":
+                        System.out.println("Client " + clientID + ": Perth requested");
+
+                        //For choosing a hotel
+                        cityName = cities.get(1).getCityName();
+                        hotels = cities.get(1).getHotels();
+                        hotel = chooseHotel(hotels, cityName);
+                        if(hotel == null){
+                            out.println("BACK");
+                        } else {
+                            out.println("HOTEL_DETAILS");
+
+                            //For choosing an option in the selected hotel
+                            while(true){
+
+                                //Prints the hotel details
+                                String blank = "\n\t===========================";
+                                message = blank + "\n\t" + hotel.getHotelName() + blank + "\n\tAvailable days in July 2018";
+                                message += hotel.printCalendar();
+
+                                message += blank + "\n\tRoom rate: $" + hotel.getRoomRates();
+                                message += "\n\tRooms available: " + hotel.getNumberOfRooms();
+
+                                message += blank + "\n\t1 - Book \n\t2 - Go back";
+
+                                message += "%";
+                                out.print(message);
+                                out.flush();
+
+                                int choice = Integer.parseInt(reader.readLine());
+                                if(choice == 1){
+                                    if(hotel.noRoomsAvailable()){
+                                        out.println("NO_ROOMS");
+                                    } else {
+                                        System.out.println("Client " + clientID + ": Booking for " + hotel.getHotelName() + " started");
+                                        out.println("BOOKING_START");
+                                        if(startBooking(hotel, cityName)){
+                                            break;
+                                        }
+                                    }
+                                } else if (choice == 2){
+                                    out.println("BACK");
+                                    break;
+                                } else {
+                                    out.println("RETRY");
+                                }
+                            }
+                        }
                         break;
                     case "exit":
                         exit = true;
