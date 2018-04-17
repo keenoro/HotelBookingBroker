@@ -59,7 +59,9 @@ public class ServerHandler extends Thread {
                         //For choosing a hotel
                         cityName = cities.get(0).getCityName();
                         hotels = cities.get(0).getHotels();
+
                         hotel = chooseHotel(hotels, cityName);
+
                         if(hotel == null){
                             out.println("BACK");
                         } else {
@@ -69,16 +71,7 @@ public class ServerHandler extends Thread {
                             while(true){
 
                                 //Prints the hotel details
-                                String blank = "\n\t===========================";
-                                message = blank + "\n\t" + hotel.getHotelName() + blank + "\n\tAvailable days in July 2018";
-                                message += hotel.printCalendar();
-
-                                message += blank + "\n\tRoom rate: $" + hotel.getRoomRates();
-                                message += "\n\tRooms available: " + hotel.getNumberOfRooms();
-
-                                message += blank + "\n\t1 - Book \n\t2 - Go back";
-
-                                message += "%";
+                                message = printHotelDetails(hotel);
                                 out.print(message);
                                 out.flush();
 
@@ -118,16 +111,7 @@ public class ServerHandler extends Thread {
                             while(true){
 
                                 //Prints the hotel details
-                                String blank = "\n\t===========================";
-                                message = blank + "\n\t" + hotel.getHotelName() + blank + "\n\tAvailable days in July 2018";
-                                message += hotel.printCalendar();
-
-                                message += blank + "\n\tRoom rate: $" + hotel.getRoomRates();
-                                message += "\n\tRooms available: " + hotel.getNumberOfRooms();
-
-                                message += blank + "\n\t1 - Book \n\t2 - Go back";
-
-                                message += "%";
+                                message = printHotelDetails(hotel);
                                 out.print(message);
                                 out.flush();
 
@@ -172,6 +156,22 @@ public class ServerHandler extends Thread {
     }
 
 
+    //Prints the hotel details
+    private String printHotelDetails(Hotel hotel){
+        String blank = "\n\t===========================";
+        String message = blank + "\n\t" + hotel.getHotelName() + blank + "\n\tAvailable days in July 2018";
+        message += hotel.printCalendar();
+
+        message += blank + "\n\tRoom rate: $" + hotel.getRoomRates();
+        message += "\n\tRooms available: " + hotel.getNumberOfRooms();
+
+        message += blank + "\n\t1 - Book \n\t2 - Go back";
+
+        message += "%";
+        return message;
+    }
+
+
     //Prints the hotel selections and return the selected hotel
     private Hotel chooseHotel(ArrayList<Hotel> hotels, String cityName){
 
@@ -184,7 +184,9 @@ public class ServerHandler extends Thread {
 
         try {
             choice = Integer.parseInt(reader.readLine());
-            if(choice == (hotels.size() + 1)){
+            if (choice == (hotels.size() + 1)) {
+                return null;
+            } else if (choice > (hotels.size() + 1) || choice < 0){
                 return null;
             } else {
                 Hotel hotel = hotels.get(choice - 1);
