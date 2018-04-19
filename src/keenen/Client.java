@@ -43,7 +43,7 @@ public class Client {
             in = socket.getInputStream();
             out = socket.getOutputStream();
         } catch(IOException e){
-            System.out.println(" Client Blah ");
+            System.out.println("Client IO Error");
             return;
         }
 
