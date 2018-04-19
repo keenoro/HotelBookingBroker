@@ -156,7 +156,7 @@ public class ServerHandler extends Thread {
     }
 
 
-    //Prints the hotel details
+    //Returns the hotel details
     private String printHotelDetails(Hotel hotel){
         String blank = "\n\t===========================";
         String message = blank + "\n\t" + hotel.getHotelName() + blank + "\n\tAvailable days in July 2018";
@@ -275,7 +275,6 @@ public class ServerHandler extends Thread {
 
                 Booking booking = new Booking(bookingID);
 
-                //TODO: Think about the set date like the bookSomeRooms() in Hotel class
                 //Set the dates to false for occupied
                 for (int i = checkInDate - 1; i < checkOutDate - 1; i++) {
                     hotel.setADate(i, false);
